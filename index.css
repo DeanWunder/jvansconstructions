@@ -1,0 +1,750 @@
+:root {
+    --maroon: #6f1520;
+    --red: #c41f33;
+    --red-light: #d93a4d;
+    --charcoal-light: #4a4344;
+    --charcoal: #2b2626;
+    --muted-light: #d9d4d4;
+    --muted-dim: #9a9495;
+    --white: #ffffff;
+    --shadow: 0 10px 30px rgba(67, 15, 21, 0.12);
+    --shadow-hover: 0 16px 40px rgba(67, 15, 21, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    /* Offsets anchor-link scrolling so section headings land below the
+       sticky header instead of underneath it. --header-h is measured
+       live in JS since the header's height changes with screen size
+       (brand row wraps; the mobile nav strip only exists below lg). */
+    scroll-padding-top: var(--header-h, 60px);
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--muted-light);
+    background: var(--charcoal);
+    margin: 0;
+}
+
+a {
+    color: var(--red);
+}
+
+/* ---------- Topbar ---------- */
+#topbar {
+    background: var(--red);
+    padding: 10px 0 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+/* Nav band: replaces the old 4px border-bottom accent with a full
+   bar in that same colour, and houses both the desktop and mobile
+   nav so the accent and the nav links are one visual unit. */
+#nav-band {
+    background: var(--red-light);
+}
+#topbar .topbar-col {
+    display: flex;
+    align-items: center;
+    padding: 6px 14px;
+}
+/* The phone button is always pinned to the top right and never wraps
+   onto its own line, no matter how narrow the screen. The brand row
+   shrinks to make room for it instead, truncating its text with an
+   ellipsis rather than pushing the button down. */
+.topbar-row {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    padding-bottom: 10px;
+}
+.topbar-brand-row {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 14px;
+}
+.topbar-phone-col {
+    flex: 0 0 auto;
+}
+/* The header sits on the same red as #topbar/#nav-band, so the
+   default red-gradient button blends straight into it. A charcoal
+   drop shadow gives it definition without changing its fill. */
+.topbar-phone-col .btn-cta {
+    box-shadow: 0 4px 14px rgba(43, 38, 38, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.topbar-phone-col .btn-cta:hover {
+    box-shadow: 0 6px 18px rgba(43, 38, 38, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.topbar-brand-row img {
+    flex-shrink: 0;
+}
+#topbar h1 {
+    margin: 0;
+    line-height: 0;
+}
+#main-nav {
+    width: 100%;
+    gap: 22px;
+    justify-content: center;
+}
+#main-nav a {
+    color: var(--white);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    text-decoration: none;
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 8px;
+    transition: color 0.2s ease;
+}
+#main-nav a:hover {
+    text-decoration: underline;
+}
+/* Marks whichever link corresponds to the section currently in view
+   (kept in sync with scroll position via IntersectionObserver below). */
+#main-nav a.active {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+/* Below lg, #main-nav is hidden (d-none), so a second, always-visible
+   nav strip takes its place as a horizontally scrollable row of
+   one-tap links. It lives inside the sticky header so it stays
+   reachable from anywhere on the page without ever needing a menu
+   toggle. */
+#mobile-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 10px 0;
+    width: 100%;
+}
+#mobile-nav::-webkit-scrollbar {
+    display: none;
+}
+#mobile-nav a {
+    flex: 0 0 auto;
+    color: var(--white);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    background: rgba(43, 38, 38, 0.12);
+    border: 1px solid rgba(43, 38, 38, 0.2);
+    text-decoration: none;
+    font-family: 'Heebo', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+#mobile-nav a:active,
+#mobile-nav a:hover,
+#mobile-nav a.active {
+    background: var(--charcoal);
+}
+@media (min-width: 992px) {
+    #mobile-nav {
+        display: none;
+    }
+}
+/* Below 500px there's no longer room for all 5 links on one
+   scrollable line, so wrap them into two centered rows of 3 and 2
+   instead (each link is fixed to a third of the width, so the third
+   naturally wraps to its own centered second row). */
+@media (max-width: 499.98px) {
+    #mobile-nav {
+        flex-wrap: wrap;
+        overflow-x: visible;
+    }
+    #mobile-nav a {
+        flex: 0 0 calc((100% - 20px) / 3);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+    }
+}
+/* Even narrower phones have less room per third-width link, so shrink
+   the label and padding too, to further reduce the chance labels get
+   truncated with an ellipsis. */
+@media (max-width: 399.98px) {
+    #mobile-nav a {
+        font-size: 10.5px;
+        padding: 6px 4px;
+    }
+}
+/* Below lg the header now carries an extra row (the nav strip), so
+   trim the brand row's chrome to keep the sticky header from eating
+   too much of a phone's viewport. */
+@media (max-width: 991.98px) {
+    #topbar {
+        padding: 8px 0 0;
+    }
+    #topbar .topbar-col {
+        padding: 4px 10px;
+    }
+    .topbar-row {
+        padding-bottom: 8px;
+    }
+    .topbar-brand-row img {
+        height: 40px;
+        width: auto;
+    }
+    #mobile-nav {
+        padding: 8px 0;
+    }
+}
+/* Below 480px, the header's call button loses its label and becomes
+   an icon-only tap target so it doesn't crowd the brand. */
+@media (max-width: 479.98px) {
+    .topbar-phone-col .phone-number-text {
+        display: none;
+    }
+}
+
+/* ---------- Buttons ---------- */
+.btn-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(180deg, var(--red-light) 0%, var(--red) 100%);
+    color: var(--white);
+    font-family: 'Heebo', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 15px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(196, 31, 51, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+}
+.btn-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(196, 31, 51, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    color: var(--white);
+    text-decoration: none;
+}
+.btn-cta-outline {
+    background: transparent;
+    box-shadow: inset 0 0 0 2px var(--white);
+}
+.btn-cta-outline:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 0 0 2px var(--white);
+}
+.btn-cta-sm {
+    padding: 8px 18px;
+    font-size: 13px;
+}
+
+/* ---------- Hero ---------- */
+#hero {
+    background: linear-gradient(135deg, var(--charcoal-light) 0%, var(--charcoal) 100%);
+    color: var(--white);
+    text-align: center;
+    padding: 40px 20px 50px;
+    position: relative;
+    overflow: hidden;
+}
+#hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.12), transparent 60%),
+                radial-gradient(circle at 10% 90%, rgba(255, 255, 255, 0.08), transparent 55%);
+    pointer-events: none;
+}
+.hero-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Heebo', sans-serif;
+    color: var(--red-light);
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+.hero-title {
+    font-family: 'Heebo', sans-serif;
+    font-weight: 900;
+    font-size: 3em;
+    margin: 0 0 20px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+.hero-subtitle {
+    max-width: 700px;
+    margin: 0 auto 36px;
+    font-size: 1.1em;
+    color: var(--muted-light);
+}
+.hero-cta {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+.hero-row {
+    padding: 20px 0;
+}
+/* The form keeps normal left-aligned text regardless of the
+   centered hero text-align, since it's a card, not hero copy. */
+.hero-contact-form {
+    text-align: left;
+}
+@media (min-width: 992px) {
+    .hero-copy {
+        text-align: left;
+    }
+    .hero-subtitle {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .hero-cta {
+        justify-content: flex-start;
+    }
+}
+
+/* ---------- Boxes / cards ---------- */
+.box {
+    background: var(--charcoal-light);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    margin: 12px 0;
+    padding: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ---------- Section headings ---------- */
+section {
+    padding: 70px 20px;
+}
+.section-heading {
+    font-family: 'Heebo', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--white);
+    font-size: 2em;
+    margin-bottom: 10px;
+    position: relative;
+}
+.section-heading::after {
+    content: "";
+    display: block;
+    width: 70px;
+    height: 4px;
+    margin: 14px auto 0;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--red-light), var(--red));
+}
+.section-subheading {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 40px;
+    color: var(--muted-light);
+}
+.section-subheading.light {
+    color: var(--muted-light);
+}
+
+/* ---------- Services ---------- */
+#services {
+    background: var(--charcoal);
+}
+.service-card {
+    text-align: center;
+    height: calc(100% - 24px);
+}
+.service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+}
+.service-icon {
+    width: 64px;
+    height: 64px;
+    line-height: 64px;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    background: linear-gradient(135deg, var(--red-light), var(--maroon));
+    color: var(--white);
+    font-size: 26px;
+    box-shadow: 0 8px 20px rgba(196, 31, 51, 0.35);
+}
+.service-card h3 {
+    font-family: 'Heebo', sans-serif;
+    font-size: 1.15em;
+    color: var(--white);
+}
+.service-card p {
+    color: var(--muted-light);
+    font-size: 0.95em;
+    margin-bottom: 0;
+}
+
+/* ---------- Why us ---------- */
+#why-us {
+    background: var(--charcoal);
+}
+.trust-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    height: calc(100% - 24px);
+}
+.trust-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+.trust-card i {
+    flex: 0 0 40px;
+    width: 40px;
+    font-size: 28px;
+    text-align: center;
+    color: var(--red);
+    margin-top: 4px;
+}
+.trust-card-content {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.trust-card h3 {
+    font-family: 'Heebo', sans-serif;
+    font-size: 1.1em;
+    color: var(--white);
+    margin: 0 0 6px;
+}
+.trust-card p {
+    margin: 0;
+    color: var(--muted-light);
+    font-size: 0.95em;
+}
+
+/* ---------- Service area ---------- */
+#service-area {
+    background: var(--charcoal);
+}
+.map-box {
+    padding: 12px;
+    overflow: hidden;
+}
+.map-box iframe {
+    border-radius: 10px;
+    display: block;
+}
+.service-area-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+.service-area-list li {
+    font-family: 'Heebo', sans-serif;
+    color: var(--white);
+    font-size: 1.05em;
+}
+.service-area-list i {
+    color: var(--red);
+    margin-right: 8px;
+}
+
+/* ---------- Reviews ---------- */
+.review-card {
+    text-align: center;
+    height: calc(100% - 24px);
+}
+.review-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+}
+.review-card > i.fa-quote-left {
+    font-size: 26px;
+    color: var(--muted-light);
+}
+.review-stars {
+    color: var(--red);
+    margin: 8px 0 14px;
+}
+.review-card p {
+    color: var(--muted-light);
+    font-style: italic;
+}
+.review-author {
+    font-family: 'Heebo', sans-serif;
+    font-weight: 900;
+    color: var(--white);
+    font-style: normal !important;
+}
+
+/* ---------- Instagram gallery ---------- */
+#gallery {
+    background: var(--charcoal);
+}
+.instagram-picture {
+    width: 100%;
+}
+.instagram-caption {
+    margin: 10px 0;
+}
+.box.instagram {
+    padding: 8px;
+    overflow: hidden;
+}
+/* Instagram's embed sets a fixed inline min-width (326px) on the
+   blockquote/iframe, which overflows its column on narrow phones.
+   Force it responsive instead. */
+.box.instagram .instagram-media,
+.box.instagram iframe {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Carousel shell: prev/next buttons flank a fixed-height viewport.
+   Because the viewport height never changes when a taller/shorter
+   embed becomes active, the buttons (vertically centered on that
+   fixed height) never shift position either. */
+.instagram-carousel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 520px;
+    margin: 0 auto;
+}
+.instagram-carousel-viewport {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: min(760px, 75vh);
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+}
+.instagram-carousel-track {
+    display: flex;
+    align-items: flex-start;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+.instagram-item {
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    padding: 0 10px;
+    opacity: 0.4;
+    transform: scale(0.92);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    pointer-events: none;
+}
+/* The active slide is full size/opacity; its immediate neighbors
+   (loaded one step ahead purely for this preview) sit either side
+   in the filmstrip and peek in translucent, hinting more content. */
+.instagram-item.is-active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+#instagram-container template {
+    display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+    .instagram-carousel-track,
+    .instagram-item {
+        transition: none;
+    }
+}
+
+.carousel-btn {
+    flex: 0 0 auto;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    background: var(--charcoal-light);
+    color: var(--white);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
+}
+.carousel-btn svg {
+    width: 24px;
+    height: 24px;
+}
+.carousel-btn:hover:not(:disabled) {
+    background: var(--red);
+    color: var(--white);
+    transform: scale(1.06);
+}
+.carousel-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+.instagram-carousel-counter {
+    text-align: center;
+    margin-top: 14px;
+    color: var(--white);
+    font-weight: 600;
+}
+
+/* Desktop widens into a 3-up carousel: the previous/next embeds sit
+   fully visible (not cropped) at reduced opacity either side of the
+   active one, each taking an even third of the viewport. */
+@media (min-width: 768px) {
+    .instagram-carousel {
+        max-width: 1160px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .instagram-carousel {
+        gap: 6px;
+    }
+    .instagram-carousel-viewport {
+        height: min(760px, 82vh);
+    }
+    /* No peek on mobile: swiping is the primary way to browse here,
+       so a neighbor sliver would just be visual noise in the margin. */
+    .instagram-item:not(.is-active) {
+        opacity: 0;
+    }
+    .carousel-btn {
+        width: 44px;
+        height: 44px;
+    }
+    .carousel-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* ---------- Contact ---------- */
+#contact {
+    background: linear-gradient(135deg, var(--charcoal-light) 0%, var(--charcoal) 100%);
+    color: var(--white);
+}
+.contact-info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.contact-info li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 1.15em;
+    margin-bottom: 22px;
+}
+.contact-info a {
+    color: var(--white);
+    text-decoration: none;
+}
+.contact-info a:hover {
+    color: var(--muted-light);
+}
+.contact-info i {
+    width: 24px;
+    text-align: center;
+    color: var(--red-light);
+}
+.contact-form label {
+    font-family: 'Heebo', sans-serif;
+    color: var(--muted-light);
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.contact-form .form-control {
+    background: var(--charcoal);
+    color: var(--white);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 10px 14px;
+    height: auto;
+}
+.contact-form .form-control::placeholder {
+    color: var(--muted-dim);
+}
+.contact-form .form-control:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(196, 31, 51, 0.2);
+}
+.contact-form-note {
+    margin: 14px 0 0;
+    font-size: 0.85em;
+    color: var(--muted-dim);
+}
+
+/* ---------- Footer ---------- */
+#site-footer {
+    background: var(--charcoal);
+    color: var(--muted-light);
+    padding: 50px 20px 24px;
+}
+#site-footer h3 {
+    font-family: 'Heebo', sans-serif;
+    color: var(--white);
+    text-transform: uppercase;
+    font-size: 1.1em;
+}
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+#site-footer a {
+    color: var(--muted-light);
+    text-decoration: none;
+}
+#site-footer a:hover {
+    color: var(--white);
+}
+.footer-contact-col i {
+    padding-right: 5px;
+}
+#site-footer hr {
+    border-color: rgba(255, 255, 255, 0.15);
+    margin: 30px 0 16px;
+}
+/* Footer columns are col-md-4, so they stack to a single column
+   below 768px. Give the Contact column's heading extra breathing
+   room from the column above it only in that stacked layout. */
+@media (max-width: 767.98px) {
+    .footer-contact-col h3 {
+        margin-top: 20px;
+    }
+}
+.footer-copyright {
+    text-align: center;
+    font-size: 0.85em;
+    margin: 0;
+    color: var(--muted-dim);
+}
+
+@media (max-width: 991px) {
+    .hero-title {
+        font-size: 2.2em;
+    }
+    section {
+        padding: 50px 16px;
+    }
+    .service-area-list {
+        margin-top: 24px;
+    }
+}
