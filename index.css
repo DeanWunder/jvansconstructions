@@ -34,10 +34,23 @@ a {
     color: var(--red);
 }
 
+/* Bootstrap's reboot.scss sets button:focus { outline: 1px dotted; ... }
+   as a cross-browser fallback (most visible in Firefox). Swap it for a
+   :focus-visible ring instead of just deleting it, so keyboard users
+   still get a clear focus indicator without a stray dotted box on
+   mouse clicks. */
+button:focus {
+    outline: none;
+}
+button:focus-visible {
+    outline: 2px solid var(--red-light);
+    outline-offset: 2px;
+}
+
 /* ---------- Topbar ---------- */
 #topbar {
     background: var(--red);
-    padding: 10px 0 0;
+    padding: 5px 0 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -52,7 +65,7 @@ a {
 #topbar .topbar-col {
     display: flex;
     align-items: center;
-    padding: 6px 14px;
+    padding: 3px 14px;
 }
 /* The phone button is always pinned to the top right and never wraps
    onto its own line, no matter how narrow the screen. The brand row
@@ -61,7 +74,7 @@ a {
 .topbar-row {
     justify-content: space-between;
     flex-wrap: nowrap;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 .topbar-brand-row {
     flex: 1 1 auto;
@@ -102,7 +115,7 @@ a {
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    padding: 12px 8px;
+    padding: 9px 8px;
     transition: color 0.2s ease;
 }
 #main-nav a:hover {
@@ -505,7 +518,9 @@ section {
     margin: 10px 0;
 }
 .box.instagram {
-    padding: 8px;
+    padding: 14px 14px 0;
+    border-radius: 20px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
     overflow: hidden;
 }
 /* Instagram's embed sets a fixed inline min-width (326px) on the
@@ -532,7 +547,7 @@ section {
 .instagram-carousel-viewport {
     flex: 1 1 auto;
     min-width: 0;
-    height: min(760px, 75vh);
+    height: min(820px, 82vh);
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
@@ -621,7 +636,7 @@ section {
         gap: 6px;
     }
     .instagram-carousel-viewport {
-        height: min(760px, 82vh);
+        height: min(820px, 88vh);
     }
     /* No peek on mobile: swiping is the primary way to browse here,
        so a neighbor sliver would just be visual noise in the margin. */
