@@ -75,9 +75,11 @@ a {
    default red-gradient button blends straight into it. A charcoal
    drop shadow gives it definition without changing its fill. */
 .topbar-phone-col .btn-cta {
+    color: var(--white);
     box-shadow: 0 4px 14px rgba(43, 38, 38, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 .topbar-phone-col .btn-cta:hover {
+    color: var(--white);
     box-shadow: 0 6px 18px rgba(43, 38, 38, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 .topbar-brand-row img {
@@ -216,7 +218,7 @@ a {
     align-items: center;
     gap: 8px;
     background: linear-gradient(180deg, var(--red-light) 0%, var(--red) 100%);
-    color: var(--white);
+    color: var(--muted-light);
     font-family: 'Heebo', sans-serif;
     font-weight: 900;
     text-transform: uppercase;
@@ -233,8 +235,11 @@ a {
 .btn-cta:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 22px rgba(196, 31, 51, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    color: var(--white);
+    color: var(--muted-light);
     text-decoration: none;
+}
+.btn-cta i {
+    color: var(--white);
 }
 .btn-cta-outline {
     background: transparent;
@@ -252,7 +257,7 @@ a {
 /* ---------- Hero ---------- */
 #hero {
     background: linear-gradient(135deg, var(--charcoal-light) 0%, var(--charcoal) 100%);
-    color: var(--white);
+    color: var(--muted-light);
     text-align: center;
     padding: 40px 20px 50px;
     position: relative;
@@ -335,7 +340,7 @@ section {
     font-weight: 900;
     text-transform: uppercase;
     text-align: center;
-    color: var(--white);
+    color: var(--muted-light);
     font-size: 2em;
     margin-bottom: 10px;
     position: relative;
@@ -385,7 +390,7 @@ section {
 .service-card h3 {
     font-family: 'Heebo', sans-serif;
     font-size: 1.15em;
-    color: var(--white);
+    color: var(--muted-light);
 }
 .service-card p {
     color: var(--muted-light);
@@ -422,7 +427,7 @@ section {
 .trust-card h3 {
     font-family: 'Heebo', sans-serif;
     font-size: 1.1em;
-    color: var(--white);
+    color: var(--muted-light);
     margin: 0 0 6px;
 }
 .trust-card p {
@@ -453,7 +458,7 @@ section {
 }
 .service-area-list li {
     font-family: 'Heebo', sans-serif;
-    color: var(--white);
+    color: var(--muted-light);
     font-size: 1.05em;
 }
 .service-area-list i {
@@ -485,7 +490,7 @@ section {
 .review-author {
     font-family: 'Heebo', sans-serif;
     font-weight: 900;
-    color: var(--white);
+    color: var(--muted-light);
     font-style: normal !important;
 }
 
@@ -598,7 +603,7 @@ section {
 .instagram-carousel-counter {
     text-align: center;
     margin-top: 14px;
-    color: var(--white);
+    color: var(--muted-light);
     font-weight: 600;
 }
 
@@ -636,7 +641,7 @@ section {
 /* ---------- Contact ---------- */
 #contact {
     background: linear-gradient(135deg, var(--charcoal-light) 0%, var(--charcoal) 100%);
-    color: var(--white);
+    color: var(--muted-light);
 }
 .contact-info {
     list-style: none;
@@ -652,11 +657,11 @@ section {
     margin-bottom: 22px;
 }
 .contact-info a {
-    color: var(--white);
+    color: var(--muted-light);
     text-decoration: none;
 }
 .contact-info a:hover {
-    color: var(--muted-light);
+    color: var(--red-light);
 }
 .contact-info i {
     width: 24px;
@@ -672,7 +677,7 @@ section {
 }
 .contact-form .form-control {
     background: var(--charcoal);
-    color: var(--white);
+    color: var(--muted-light);
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     padding: 10px 14px;
@@ -699,7 +704,7 @@ section {
 }
 #site-footer h3 {
     font-family: 'Heebo', sans-serif;
-    color: var(--white);
+    color: var(--muted-light);
     text-transform: uppercase;
     font-size: 1.1em;
 }
@@ -713,7 +718,7 @@ section {
     text-decoration: none;
 }
 #site-footer a:hover {
-    color: var(--white);
+    color: var(--red-light);
 }
 .footer-contact-col i {
     padding-right: 5px;
