@@ -513,13 +513,9 @@ section {
     transform: translateY(-6px);
     box-shadow: var(--shadow-hover);
 }
-.review-card > i.fa-quote-left {
-    font-size: 26px;
-    color: var(--muted-light);
-}
 .review-stars {
     color: var(--red);
-    margin: 8px 0 14px;
+    margin: 0 0 14px;
 }
 .review-card p {
     color: var(--muted-light);
@@ -530,6 +526,29 @@ section {
     font-weight: 900;
     color: var(--muted-light);
     font-style: normal !important;
+}
+.review-text.collapsed {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+}
+.review-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: -8px 0 16px;
+    color: var(--red);
+    font-weight: 700;
+    cursor: pointer;
+}
+.review-toggle:hover {
+    text-decoration: underline;
+}
+.reviews-more {
+    text-align: center;
+    margin-top: 16px;
 }
 
 /* ---------- Instagram gallery ---------- */
